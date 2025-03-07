@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using OpenAIRecommendationAppMaui.Services;
 
 namespace OpenAIRecommendationAppMaui
 {
@@ -15,8 +16,14 @@ namespace OpenAIRecommendationAppMaui
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddTransient<MainPage>();
+
+            OpenAIService svc = new OpenAIService();
+            svc.Initialize(Constants.Constants.OpenAIKey, Constants.Constants.OpenAIEndpoint);
+            builder.Services.AddSingleton<OpenAIService>(svc);
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
